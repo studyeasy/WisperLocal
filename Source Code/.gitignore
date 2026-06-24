@@ -1,0 +1,19 @@
+# Virtual environment
+.venv/
+venv/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+
+# PyInstaller build output
+build/
+dist/
+installer_output/
+*.spec.bak
+
+# Local config / model cache (if placed in-tree)
+models/
+*.log

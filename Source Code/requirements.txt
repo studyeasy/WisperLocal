@@ -1,0 +1,7 @@
+# WisperLocal dependencies
+faster-whisper>=1.0.0     # Whisper transcription engine (CTranslate2 backend)
+sounddevice>=0.4.6        # Microphone capture
+numpy>=1.24,<3            # Audio buffers
+pynput>=1.7.6             # Global hotkey listener + synthetic Ctrl+V
+pyperclip>=1.8.2          # Clipboard read/write for paste-at-cursor
+PySide6>=6.6              # Settings window + system tray icon

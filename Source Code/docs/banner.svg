@@ -1,0 +1,134 @@
+<svg viewBox="0 0 1200 340" xmlns="http://www.w3.org/2000/svg" font-family="'Segoe UI', system-ui, -apple-system, Roboto, Arial, sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0B1220"/><stop offset="1" stop-color="#151F35"/>
+    </linearGradient>
+    <linearGradient id="emblem" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#60A5FA"/><stop offset="1" stop-color="#2563EB"/>
+    </linearGradient>
+    <linearGradient id="bars" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#7DD3FC"/><stop offset="1" stop-color="#2563EB"/>
+    </linearGradient>
+  </defs>
+  <rect x="0" y="0" width="1200" height="340" rx="28" fill="url(#bg)"/>
+  <g opacity="0.5">
+      <rect x="60.0" y="274.1" width="9.5" height="51.9" rx="4.8" fill="#1E2A44"/>
+      <rect x="79.0" y="270.3" width="9.5" height="59.3" rx="4.8" fill="#1E2A44"/>
+      <rect x="98.0" y="274.3" width="9.5" height="51.4" rx="4.8" fill="#1E2A44"/>
+      <rect x="117.0" y="282.3" width="9.5" height="35.3" rx="4.8" fill="#1E2A44"/>
+      <rect x="136.0" y="268.6" width="9.5" height="62.9" rx="4.8" fill="#1E2A44"/>
+      <rect x="155.0" y="260.0" width="9.5" height="79.9" rx="4.8" fill="#1E2A44"/>
+      <rect x="174.0" y="261.2" width="9.5" height="77.5" rx="4.8" fill="#1E2A44"/>
+      <rect x="193.0" y="272.2" width="9.5" height="55.6" rx="4.8" fill="#1E2A44"/>
+      <rect x="212.0" y="267.6" width="9.5" height="64.8" rx="4.8" fill="#1E2A44"/>
+      <rect x="231.0" y="253.1" width="9.5" height="93.7" rx="4.8" fill="#1E2A44"/>
+      <rect x="250.0" y="249.1" width="9.5" height="101.8" rx="4.8" fill="#1E2A44"/>
+      <rect x="269.0" y="257.9" width="9.5" height="84.1" rx="4.8" fill="#1E2A44"/>
+      <rect x="288.0" y="271.4" width="9.5" height="57.2" rx="4.8" fill="#1E2A44"/>
+      <rect x="307.0" y="251.3" width="9.5" height="97.5" rx="4.8" fill="#1E2A44"/>
+      <rect x="326.0" y="240.3" width="9.5" height="119.3" rx="4.8" fill="#1E2A44"/>
+      <rect x="345.0" y="244.2" width="9.5" height="111.7" rx="4.8" fill="#1E2A44"/>
+      <rect x="364.0" y="261.3" width="9.5" height="77.4" rx="4.8" fill="#1E2A44"/>
+      <rect x="383.0" y="255.0" width="9.5" height="90.1" rx="4.8" fill="#1E2A44"/>
+      <rect x="402.0" y="236.9" width="9.5" height="126.3" rx="4.8" fill="#1E2A44"/>
+      <rect x="421.0" y="233.4" width="9.5" height="133.2" rx="4.8" fill="#1E2A44"/>
+      <rect x="440.0" y="246.6" width="9.5" height="106.9" rx="4.8" fill="#1E2A44"/>
+      <rect x="459.0" y="263.4" width="9.5" height="73.1" rx="4.8" fill="#1E2A44"/>
+      <rect x="478.0" y="239.6" width="9.5" height="120.9" rx="4.8" fill="#1E2A44"/>
+      <rect x="497.0" y="227.9" width="9.5" height="144.2" rx="4.8" fill="#1E2A44"/>
+      <rect x="516.0" y="234.2" width="9.5" height="131.6" rx="4.8" fill="#1E2A44"/>
+      <rect x="535.0" y="255.6" width="9.5" height="88.7" rx="4.8" fill="#1E2A44"/>
+      <rect x="554.0" y="247.9" width="9.5" height="104.1" rx="4.8" fill="#1E2A44"/>
+      <rect x="573.0" y="228.8" width="9.5" height="142.3" rx="4.8" fill="#1E2A44"/>
+      <rect x="592.0" y="226.7" width="9.5" height="146.6" rx="4.8" fill="#1E2A44"/>
+      <rect x="611.0" y="242.5" width="9.5" height="114.9" rx="4.8" fill="#1E2A44"/>
+      <rect x="630.0" y="260.3" width="9.5" height="79.4" rx="4.8" fill="#1E2A44"/>
+      <rect x="649.0" y="236.1" width="9.5" height="127.8" rx="4.8" fill="#1E2A44"/>
+      <rect x="668.0" y="225.5" width="9.5" height="149.0" rx="4.8" fill="#1E2A44"/>
+      <rect x="687.0" y="233.5" width="9.5" height="133.0" rx="4.8" fill="#1E2A44"/>
+      <rect x="706.0" y="256.3" width="9.5" height="87.5" rx="4.8" fill="#1E2A44"/>
+      <rect x="725.0" y="248.2" width="9.5" height="103.6" rx="4.8" fill="#1E2A44"/>
+      <rect x="744.0" y="230.9" width="9.5" height="138.3" rx="4.8" fill="#1E2A44"/>
+      <rect x="763.0" y="230.4" width="9.5" height="139.3" rx="4.8" fill="#1E2A44"/>
+      <rect x="782.0" y="246.7" width="9.5" height="106.6" rx="4.8" fill="#1E2A44"/>
+      <rect x="801.0" y="262.8" width="9.5" height="74.4" rx="4.8" fill="#1E2A44"/>
+      <rect x="820.0" y="241.7" width="9.5" height="116.7" rx="4.8" fill="#1E2A44"/>
+      <rect x="839.0" y="233.6" width="9.5" height="132.8" rx="4.8" fill="#1E2A44"/>
+      <rect x="858.0" y="242.2" width="9.5" height="115.7" rx="4.8" fill="#1E2A44"/>
+      <rect x="877.0" y="262.9" width="9.5" height="74.1" rx="4.8" fill="#1E2A44"/>
+      <rect x="896.0" y="255.8" width="9.5" height="88.4" rx="4.8" fill="#1E2A44"/>
+      <rect x="915.0" y="242.5" width="9.5" height="115.0" rx="4.8" fill="#1E2A44"/>
+      <rect x="934.0" y="243.6" width="9.5" height="112.8" rx="4.8" fill="#1E2A44"/>
+      <rect x="953.0" y="258.0" width="9.5" height="84.0" rx="4.8" fill="#1E2A44"/>
+      <rect x="972.0" y="270.5" width="9.5" height="58.9" rx="4.8" fill="#1E2A44"/>
+      <rect x="991.0" y="255.2" width="9.5" height="89.6" rx="4.8" fill="#1E2A44"/>
+      <rect x="1010.0" y="250.5" width="9.5" height="99.0" rx="4.8" fill="#1E2A44"/>
+      <rect x="1029.0" y="258.2" width="9.5" height="83.6" rx="4.8" fill="#1E2A44"/>
+      <rect x="1048.0" y="274.1" width="9.5" height="51.8" rx="4.8" fill="#1E2A44"/>
+      <rect x="1067.0" y="269.1" width="9.5" height="61.7" rx="4.8" fill="#1E2A44"/>
+      <rect x="1086.0" y="261.3" width="9.5" height="77.3" rx="4.8" fill="#1E2A44"/>
+      <rect x="1105.0" y="263.4" width="9.5" height="73.1" rx="4.8" fill="#1E2A44"/>
+      <rect x="1124.0" y="273.9" width="9.5" height="52.3" rx="4.8" fill="#1E2A44"/>
+      <rect x="1143.0" y="281.9" width="9.5" height="36.2" rx="4.8" fill="#1E2A44"/>
+      <rect x="1162.0" y="273.8" width="9.5" height="52.4" rx="4.8" fill="#1E2A44"/>
+      <rect x="1181.0" y="272.5" width="9.5" height="55.1" rx="4.8" fill="#1E2A44"/>
+  </g>
+  <ellipse cx="158" cy="150" rx="135" ry="135" fill="#3B82F6" opacity="0.10"/>
+  <g transform="translate(92,84)">
+    <rect x="0" y="0" width="132" height="132" rx="36" fill="url(#emblem)"/>
+    <g transform="translate(6,6)">
+      <rect x="46.2" y="24.0" width="27.6" height="43.2" rx="13.8" fill="#ffffff"/>
+      <path d="M37.2 54.0 a22.8 21.6 0 0 0 45.6 0" fill="none" stroke="#ffffff" stroke-width="6.0" stroke-linecap="round"/>
+      <line x1="60.0" y1="75.6" x2="60.0" y2="91.2" stroke="#ffffff" stroke-width="6.0" stroke-linecap="round"/>
+      <line x1="48.0" y1="93.6" x2="72.0" y2="93.6" stroke="#ffffff" stroke-width="6.0" stroke-linecap="round"/></g>
+  </g>
+  <text x="278" y="158" font-size="82" font-weight="800" fill="#F8FAFC" letter-spacing="-1">WisperLocal</text>
+  <text x="282" y="206" font-size="29" font-weight="600" fill="#93C5FD">Private, on-device dictation for Windows</text>
+  <text x="282" y="242" font-size="18.5" fill="#7C8BA5">Press a hotkey &#183; speak &#183; it types where your cursor is &#8212; powered by Whisper</text>
+  <g>
+      <rect x="282.0" y="291.2" width="5.5" height="17.7" rx="2.8" fill="url(#bars)"/>
+      <rect x="293.0" y="287.0" width="5.5" height="25.9" rx="2.8" fill="url(#bars)"/>
+      <rect x="304.0" y="285.5" width="5.5" height="29.0" rx="2.8" fill="url(#bars)"/>
+      <rect x="315.0" y="287.6" width="5.5" height="24.8" rx="2.8" fill="url(#bars)"/>
+      <rect x="326.0" y="289.7" width="5.5" height="20.6" rx="2.8" fill="url(#bars)"/>
+      <rect x="337.0" y="283.2" width="5.5" height="33.7" rx="2.8" fill="url(#bars)"/>
+      <rect x="348.0" y="279.5" width="5.5" height="41.0" rx="2.8" fill="url(#bars)"/>
+      <rect x="359.0" y="280.7" width="5.5" height="38.7" rx="2.8" fill="url(#bars)"/>
+      <rect x="370.0" y="286.3" width="5.5" height="27.3" rx="2.8" fill="url(#bars)"/>
+      <rect x="381.0" y="281.9" width="5.5" height="36.3" rx="2.8" fill="url(#bars)"/>
+      <rect x="392.0" y="275.4" width="5.5" height="49.2" rx="2.8" fill="url(#bars)"/>
+      <rect x="403.0" y="274.4" width="5.5" height="51.3" rx="2.8" fill="url(#bars)"/>
+      <rect x="414.0" y="279.4" width="5.5" height="41.2" rx="2.8" fill="url(#bars)"/>
+      <rect x="425.0" y="283.4" width="5.5" height="33.3" rx="2.8" fill="url(#bars)"/>
+      <rect x="436.0" y="274.3" width="5.5" height="51.4" rx="2.8" fill="url(#bars)"/>
+      <rect x="447.0" y="270.2" width="5.5" height="59.6" rx="2.8" fill="url(#bars)"/>
+      <rect x="458.0" y="273.2" width="5.5" height="53.6" rx="2.8" fill="url(#bars)"/>
+      <rect x="469.0" y="281.9" width="5.5" height="36.1" rx="2.8" fill="url(#bars)"/>
+      <rect x="480.0" y="276.3" width="5.5" height="47.4" rx="2.8" fill="url(#bars)"/>
+      <rect x="491.0" y="269.2" width="5.5" height="61.6" rx="2.8" fill="url(#bars)"/>
+      <rect x="502.0" y="269.2" width="5.5" height="61.7" rx="2.8" fill="url(#bars)"/>
+      <rect x="513.0" y="276.2" width="5.5" height="47.6" rx="2.8" fill="url(#bars)"/>
+      <rect x="524.0" y="280.9" width="5.5" height="38.2" rx="2.8" fill="url(#bars)"/>
+      <rect x="535.0" y="271.6" width="5.5" height="56.7" rx="2.8" fill="url(#bars)"/>
+      <rect x="546.0" y="268.3" width="5.5" height="63.3" rx="2.8" fill="url(#bars)"/>
+      <rect x="557.0" y="272.5" width="5.5" height="54.9" rx="2.8" fill="url(#bars)"/>
+      <rect x="568.0" y="282.2" width="5.5" height="35.6" rx="2.8" fill="url(#bars)"/>
+      <rect x="579.0" y="276.8" width="5.5" height="46.4" rx="2.8" fill="url(#bars)"/>
+      <rect x="590.0" y="271.0" width="5.5" height="58.1" rx="2.8" fill="url(#bars)"/>
+      <rect x="601.0" y="271.9" width="5.5" height="56.1" rx="2.8" fill="url(#bars)"/>
+      <rect x="612.0" y="279.2" width="5.5" height="41.7" rx="2.8" fill="url(#bars)"/>
+      <rect x="623.0" y="283.4" width="5.5" height="33.1" rx="2.8" fill="url(#bars)"/>
+      <rect x="634.0" y="276.4" width="5.5" height="47.3" rx="2.8" fill="url(#bars)"/>
+      <rect x="645.0" y="274.6" width="5.5" height="50.7" rx="2.8" fill="url(#bars)"/>
+      <rect x="656.0" y="278.9" width="5.5" height="42.2" rx="2.8" fill="url(#bars)"/>
+      <rect x="667.0" y="286.9" width="5.5" height="26.2" rx="2.8" fill="url(#bars)"/>
+      <rect x="678.0" y="283.2" width="5.5" height="33.6" rx="2.8" fill="url(#bars)"/>
+      <rect x="689.0" y="280.0" width="5.5" height="40.1" rx="2.8" fill="url(#bars)"/>
+      <rect x="700.0" y="281.6" width="5.5" height="36.8" rx="2.8" fill="url(#bars)"/>
+      <rect x="711.0" y="287.0" width="5.5" height="25.9" rx="2.8" fill="url(#bars)"/>
+      <rect x="722.0" y="290.0" width="5.5" height="20.0" rx="2.8" fill="url(#bars)"/>
+      <rect x="733.0" y="286.6" width="5.5" height="26.8" rx="2.8" fill="url(#bars)"/>
+      <rect x="744.0" y="286.6" width="5.5" height="26.8" rx="2.8" fill="url(#bars)"/>
+      <rect x="755.0" y="289.7" width="5.5" height="20.7" rx="2.8" fill="url(#bars)"/>
+  </g>
+</svg>

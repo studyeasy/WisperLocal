@@ -1,0 +1,49 @@
+<svg viewBox="0 0 820 230" xmlns="http://www.w3.org/2000/svg" font-family="'Segoe UI', system-ui, -apple-system, Roboto, Arial, sans-serif">
+  <defs>
+    <linearGradient id="obars" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#7DD3FC"/><stop offset="1" stop-color="#3B82F6"/>
+    </linearGradient>
+    <linearGradient id="okbtn" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#60A5FA"/><stop offset="1" stop-color="#2563EB"/>
+    </linearGradient>
+  </defs>
+  <ellipse cx="410" cy="178" rx="213" ry="16" fill="#0F172A" opacity="0.18"/>
+  <rect x="178" y="64" width="464" height="92" rx="46.0" fill="#18181B" fill-opacity="0.97"/>
+  <circle cx="218" cy="110" r="8" fill="#EF4444"/>
+  <rect x="248.0" y="100.7" width="5.0" height="18.5" rx="2.5" fill="url(#obars)"/>
+      <rect x="258.0" y="97.8" width="5.0" height="24.4" rx="2.5" fill="url(#obars)"/>
+      <rect x="268.0" y="97.7" width="5.0" height="24.5" rx="2.5" fill="url(#obars)"/>
+      <rect x="278.0" y="100.9" width="5.0" height="18.3" rx="2.5" fill="url(#obars)"/>
+      <rect x="288.0" y="96.6" width="5.0" height="26.8" rx="2.5" fill="url(#obars)"/>
+      <rect x="298.0" y="91.4" width="5.0" height="37.1" rx="2.5" fill="url(#obars)"/>
+      <rect x="308.0" y="90.2" width="5.0" height="39.5" rx="2.5" fill="url(#obars)"/>
+      <rect x="318.0" y="93.9" width="5.0" height="32.3" rx="2.5" fill="url(#obars)"/>
+      <rect x="328.0" y="95.8" width="5.0" height="28.5" rx="2.5" fill="url(#obars)"/>
+      <rect x="338.0" y="88.3" width="5.0" height="43.5" rx="2.5" fill="url(#obars)"/>
+      <rect x="348.0" y="84.9" width="5.0" height="50.1" rx="2.5" fill="url(#obars)"/>
+      <rect x="358.0" y="87.5" width="5.0" height="45.0" rx="2.5" fill="url(#obars)"/>
+      <rect x="368.0" y="94.9" width="5.0" height="30.2" rx="2.5" fill="url(#obars)"/>
+      <rect x="378.0" y="89.2" width="5.0" height="41.6" rx="2.5" fill="url(#obars)"/>
+      <rect x="388.0" y="83.6" width="5.0" height="52.8" rx="2.5" fill="url(#obars)"/>
+      <rect x="398.0" y="84.1" width="5.0" height="51.8" rx="2.5" fill="url(#obars)"/>
+      <rect x="408.0" y="90.4" width="5.0" height="39.2" rx="2.5" fill="url(#obars)"/>
+      <rect x="418.0" y="93.5" width="5.0" height="33.0" rx="2.5" fill="url(#obars)"/>
+      <rect x="428.0" y="86.6" width="5.0" height="46.7" rx="2.5" fill="url(#obars)"/>
+      <rect x="438.0" y="84.9" width="5.0" height="50.1" rx="2.5" fill="url(#obars)"/>
+      <rect x="448.0" y="89.1" width="5.0" height="41.8" rx="2.5" fill="url(#obars)"/>
+      <rect x="458.0" y="97.0" width="5.0" height="26.0" rx="2.5" fill="url(#obars)"/>
+      <rect x="468.0" y="92.9" width="5.0" height="34.3" rx="2.5" fill="url(#obars)"/>
+      <rect x="478.0" y="89.9" width="5.0" height="40.2" rx="2.5" fill="url(#obars)"/>
+      <rect x="488.0" y="91.8" width="5.0" height="36.4" rx="2.5" fill="url(#obars)"/>
+      <rect x="498.0" y="97.4" width="5.0" height="25.2" rx="2.5" fill="url(#obars)"/>
+      <rect x="508.0" y="100.0" width="5.0" height="19.9" rx="2.5" fill="url(#obars)"/>
+      <rect x="518.0" y="97.3" width="5.0" height="25.4" rx="2.5" fill="url(#obars)"/>
+      <rect x="528.0" y="97.8" width="5.0" height="24.4" rx="2.5" fill="url(#obars)"/>
+      <rect x="538.0" y="101.1" width="5.0" height="17.8" rx="2.5" fill="url(#obars)"/>
+  <circle cx="510" cy="110" r="24" fill="#ffffff" fill-opacity="0.14"/>
+  <line x1="502" y1="102" x2="518" y2="118" stroke="#FCA5A5" stroke-width="3" stroke-linecap="round"/>
+  <line x1="502" y1="118" x2="518" y2="102" stroke="#FCA5A5" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="582" cy="110" r="24" fill="url(#okbtn)"/>
+  <path d="M573 110 l6 7 l12 -14" fill="none" stroke="#ffffff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="410" y="204" text-anchor="middle" font-size="19" fill="#64748B">Listening &#8230; press the hotkey again, or click &#10003; to insert</text>
+</svg>
