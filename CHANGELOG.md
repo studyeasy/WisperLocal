@@ -3,6 +3,11 @@
 All notable changes to WisperLocal are documented here.
 This project follows [Semantic Versioning](https://semver.org).
 
+## [0.5.2] - 2026-06-25
+### Fixed
+- **Enhanced writing no longer pastes extra text.** Small local models sometimes prepend a preamble (e.g. "Here is the corrected text: …") or add trailing commentary; WisperLocal now keeps only the words that match your transcription and discards anything the model added in front or after. If the model rewrites the words entirely, it falls back to your original text.
+- **Paste inserts only the transcription.** The clipboard is now verified to hold exactly the transcribed text before pasting, so a slow clipboard write can no longer cause the previous clipboard contents to be pasted too. Falls back to typing if the clipboard can't be confirmed.
+
 ## [0.5.1] - 2026-06-24
 ### Changed
 - **Enhanced writing is now conservative**: the local LLM (Gemma) only fixes punctuation and capitalization. It no longer rewrites, rephrases, or reorders your words — the speech-to-text output stays exactly as spoken, just with proper punctuation. If the model strays, WisperLocal falls back to your original text.

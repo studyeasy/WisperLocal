@@ -1,0 +1,41 @@
+# ─── WisperLocal: top-level ignore ───────────────────────────────
+# This folder is a distribution layout: the installer + docs sit here,
+# and the full project lives in "Source Code/".
+
+# NOTE: the top-level WisperLocal-Setup-X.Y.Z.exe installer is intentionally
+# tracked so users can download it from the repo. (For a leaner repo you could
+# instead publish it as a GitHub Release and ignore it here.)
+
+# Personal speech-to-text dictation output — never upload
+Data/
+Source Code/Data/
+
+# Python virtual environment
+Source Code/.venv/
+.venv/
+venv/
+
+# Build artifacts
+Source Code/build/
+Source Code/dist/
+Source Code/installer_output/
+build/
+dist/
+installer_output/
+
+# Python caches
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+
+# Model cache / logs (if placed in-tree)
+models/
+*.log
+
+# OS / editor cruft
+Thumbs.db
+.DS_Store
+*.swp
+.idea/
+.vscode/

@@ -2,7 +2,7 @@
   <img src="Source Code/docs/banner.svg" alt="WisperLocal — private, on-device dictation for Windows" width="100%">
 </p>
 
-> ## 📦 To install: double-click **`WisperLocal-Setup-0.5.1.exe`**
+> ## 📦 To install: double-click **`WisperLocal-Setup-0.5.2.exe`**
 > That's everything you need — no Python, no setup, no command line. Once installed, you can delete this folder.
 >
 > The **`Source Code`** folder next to the installer holds the full project (Python code, build scripts, installer config, docs, and tests). You only need it to build or modify WisperLocal for future development — not to use the app.
@@ -172,7 +172,7 @@ Details (GPU bundling, Inno Setup) in [PACKAGING.md](Source Code/docs/PACKAGING.
 
 ```
 WisperLocal/
-├── WisperLocal-Setup-0.5.1.exe   # the installer — double-click to install
+├── WisperLocal-Setup-0.5.2.exe   # the installer — double-click to install
 ├── README.md  CHANGELOG.md       # this file + version history
 └── Source Code/                  # full project, for future development
     ├── LICENSE  requirements.txt

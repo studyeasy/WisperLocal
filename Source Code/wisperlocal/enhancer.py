@@ -10,6 +10,7 @@ Uses only the standard library (urllib) so it adds no packaging weight.
 """
 
 import json
+import re
 import urllib.error
 import urllib.request
 
@@ -102,10 +103,12 @@ class OllamaEnhancer:
 
         out = (resp.get("message") or {}).get("content", "").strip()
         out = _strip_wrapping_quotes(out)
-        # We only add punctuation/capitalization, so the result should be close
-        # to the input length. If the model ignored that and rewrote or rambled,
-        # fall back to the original so the words are never changed.
-        if not out or len(out) > max(80, int(len(text) * 1.5)):
+        # We only allow punctuation/capitalization changes, so the words in the
+        # output must match the input exactly. This drops any preamble the model
+        # added in front (e.g. "Here is the corrected text: ...") and falls back
+        # to the original if the model rewrote or rambled.
+        out = _keep_only_transcription(out, text)
+        if not out:
             return text
         return out
 
@@ -144,6 +147,46 @@ def _strip_wrapping_quotes(s: str) -> str:
     if len(s) >= 2 and s[0] in "\"'" and s[-1] == s[0]:
         return s[1:-1].strip()
     return s
+
+
+_WORD_RE = re.compile(r"\w+", re.UNICODE)
+
+
+def _keep_only_transcription(out: str, original: str) -> str:
+    """Return only the part of *out* that matches the words of *original*.
+
+    The enhancer is supposed to change punctuation and capitalization only, so
+    the sequence of words (ignoring case and punctuation) must be identical.
+      * If they already match, *out* is returned unchanged.
+      * If the model added a preamble or trailing commentary, we locate the
+        original words inside *out* and keep only that span (preserving the
+        punctuation the model inserted between them).
+      * If the words don't match at all (rewrite / ramble), we return "" so the
+        caller falls back to the original transcription.
+    """
+    if not out:
+        return ""
+    orig_tokens = _WORD_RE.findall(original.lower())
+    if not orig_tokens:
+        return out.strip()
+
+    matches = list(_WORD_RE.finditer(out))
+    out_tokens = [m.group(0).lower() for m in matches]
+    if out_tokens == orig_tokens:
+        return out.strip()
+
+    # Find the original word sequence as a contiguous run inside the output.
+    n = len(orig_tokens)
+    for i in range(len(out_tokens) - n + 1):
+        if out_tokens[i:i + n] == orig_tokens:
+            start = matches[i].start()
+            end = matches[i + n - 1].end()
+            # Keep a trailing sentence mark the model added after the last word.
+            if end < len(out) and out[end] in ".!?":
+                end += 1
+            return out[start:end].strip()
+
+    return ""  # words differ from the transcription -> caller falls back
 
 
 def enhance_with_config(text: str, config) -> str:

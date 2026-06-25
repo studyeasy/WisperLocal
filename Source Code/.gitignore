@@ -14,6 +14,19 @@ dist/
 installer_output/
 *.spec.bak
 
+# Built installer binaries (ship via GitHub Releases, not git)
+*.exe
+
+# Personal speech-to-text dictation output — never upload
+Data/
+
 # Local config / model cache (if placed in-tree)
 models/
 *.log
+
+# OS / editor cruft
+Thumbs.db
+.DS_Store
+*.swp
+.idea/
+.vscode/
