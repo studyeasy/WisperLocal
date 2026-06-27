@@ -3,6 +3,13 @@
 All notable changes to WisperLocal are documented here.
 This project follows [Semantic Versioning](https://semver.org).
 
+## [0.6.0] - 2026-06-25
+### Changed
+- **Enhanced writing now runs fully in-process — Ollama is no longer required.** The previous version depended on a separate Ollama server that often wasn't running, so enhancement silently failed. WisperLocal now runs a small quantized LLM directly inside the app via llama.cpp.
+- **Pick your model in Settings.** A dropdown offers lightweight options — Qwen2.5 0.5B (default, fastest), Llama 3.2 1B, Qwen2.5 1.5B, and Google Gemma 2 2B. The chosen model downloads automatically from Hugging Face on first use, is cached locally, and then runs offline.
+### Removed
+- The Ollama install step in the installer and all Ollama-related settings (server URL, etc.).
+
 ## [0.5.2] - 2026-06-25
 ### Fixed
 - **Enhanced writing no longer pastes extra text.** Small local models sometimes prepend a preamble (e.g. "Here is the corrected text: …") or add trailing commentary; WisperLocal now keeps only the words that match your transcription and discards anything the model added in front or after. If the model rewrites the words entirely, it falls back to your original text.

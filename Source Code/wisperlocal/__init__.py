@@ -1,4 +1,4 @@
 """WisperLocal - local Whisper dictation for Windows."""
 
-__version__ = "0.5.2"
+__version__ = "0.6.0"
 APP_NAME = "WisperLocal"

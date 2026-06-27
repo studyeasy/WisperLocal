@@ -1,8 +1,8 @@
 """Post-processing of raw Whisper transcripts.
 
 Offline, rule-based cleanup: spoken layout commands, optional filler removal,
-whitespace/punctuation tidying, and sentence capitalization. Designed so an
-optional LLM "polish" pass (Claude API / Ollama) can be layered on later.
+whitespace/punctuation tidying, and sentence capitalization. An optional
+in-process local-LLM "polish" pass (see enhancer.py) can run afterwards.
 """
 
 import re

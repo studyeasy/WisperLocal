@@ -5,3 +5,9 @@ numpy>=1.24,<3            # Audio buffers
 pynput>=1.7.6             # Global hotkey listener + synthetic Ctrl+V
 pyperclip>=1.8.2          # Clipboard read/write for paste-at-cursor
 PySide6>=6.6              # Settings window + system tray icon
+huggingface_hub>=0.21     # Download/cache Whisper + LLM models (also via faster-whisper)
+
+# Enhanced writing: in-process LLM (no server). CPU wheels are prebuilt, so
+# install from the llama-cpp-python CPU wheel index to avoid a local compile:
+#   pip install llama-cpp-python --extra-index-url https://abetlen.github.io/llama-cpp-python/whl/cpu
+llama-cpp-python>=0.3.0   # Runs quantized GGUF models locally on CPU

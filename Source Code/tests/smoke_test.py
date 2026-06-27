@@ -58,9 +58,9 @@ try:
     cfg.set("ai_format", True)
     try:
         out = enhancer.enhance_with_config("hello there friend", cfg)
-        print(f"  [OK ] enhancer ran (Ollama available): {out!r}")
+        print(f"  [OK ] enhancer ran (local model available): {out!r}")
     except enhancer.EnhancerError as exc:
-        print(f"  [OK ] enhancer fell back (Ollama unavailable): {str(exc)[:50]}")
+        print(f"  [OK ] enhancer fell back (model not downloaded): {str(exc)[:50]}")
 except Exception:
     ok = False
     traceback.print_exc()

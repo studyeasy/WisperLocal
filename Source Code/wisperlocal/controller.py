@@ -110,21 +110,31 @@ class Controller(QObject):
             self.modelProgress.emit(f"Downloading {self.config.get('model')}...")
 
     def _prewarm_enhancer(self) -> None:
-        """Load the LLM into memory in the background so the first enhanced
-        dictation isn't delayed by a cold model load."""
+        """Get the local LLM ready in the background so enhanced dictation works
+        without blocking. If the selected model isn't downloaded yet, fetch it
+        (reporting progress); then load it into memory."""
         if not self.config.get("ai_format"):
             return
 
         def _warm():
             try:
-                enhancer.OllamaEnhancer(
-                    url=self.config.get("ai_url"),
-                    model=self.config.get("ai_model"),
-                    device=self.config.get("ai_device"),
-                    timeout=self.config.get("ai_timeout"),
-                ).enhance("ok")
-            except Exception:
-                pass
+                eng = enhancer.LocalEnhancer(model_key=self.config.get("ai_model"))
+                if not enhancer.is_cached(eng.spec):
+                    self.info.emit(f"Downloading enhancement model: {eng.spec.label}...")
+                    last = [-1]
+
+                    def _progress(done, total):
+                        if total:
+                            pct = int(done * 100 / total)
+                            if pct >= last[0] + 10:  # coarse, every ~10%
+                                last[0] = pct
+                                self.modelProgress.emit(f"Enhancement model {eng.spec.label}: {pct}%")
+
+                    enhancer.download_model(eng.spec, progress=_progress)
+                    self.info.emit(f"Enhancement model ready: {eng.spec.label}.")
+                eng.load()
+            except Exception as exc:
+                self.info.emit(f"Enhancement model not ready: {exc}")
 
         threading.Thread(target=_warm, daemon=True).start()
 

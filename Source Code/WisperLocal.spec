@@ -6,7 +6,8 @@ from PyInstaller.utils.hooks import collect_all
 datas, binaries, hiddenimports = [], [], []
 
 # Heavy native packages that need their DLLs/data collected explicitly.
-for pkg in ("faster_whisper", "ctranslate2", "onnxruntime", "av", "sounddevice"):
+# llama_cpp ships the llama.cpp shared library + chat-template data files.
+for pkg in ("faster_whisper", "ctranslate2", "onnxruntime", "av", "sounddevice", "llama_cpp"):
     d, b, h = collect_all(pkg)
     datas += d
     binaries += b

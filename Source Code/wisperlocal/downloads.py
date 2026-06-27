@@ -99,3 +99,22 @@ def download(name: str, callback=None) -> None:
         with _CallbackTqdm._lock:
             _CallbackTqdm._cb = None
             _CallbackTqdm._live = []
+
+
+def download_file(repo_id: str, filename: str, cache_dir: str, callback=None) -> None:
+    """Download a single file from `repo_id` into `cache_dir`, reporting
+    (done, total) bytes. Used for in-process LLM GGUF weights."""
+    with _CallbackTqdm._lock:
+        _CallbackTqdm._live = []
+        _CallbackTqdm._cb = callback
+    try:
+        huggingface_hub.snapshot_download(
+            repo_id,
+            allow_patterns=[filename],
+            cache_dir=cache_dir,
+            tqdm_class=_CallbackTqdm,
+        )
+    finally:
+        with _CallbackTqdm._lock:
+            _CallbackTqdm._cb = None
+            _CallbackTqdm._live = []

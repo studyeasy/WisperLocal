@@ -18,7 +18,7 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
-from . import startup
+from . import enhancer, startup
 from .transcriber import MODEL_CHOICES, cuda_available
 
 DEVICE_CHOICES = [("CPU", "cpu"), ("GPU (CUDA)", "cuda"), ("Auto", "auto")]
@@ -32,7 +32,7 @@ LANGUAGES = [
     ("Dutch", "nl"), ("Japanese", "ja"), ("Chinese", "zh"), ("Korean", "ko"),
     ("Russian", "ru"), ("Arabic", "ar"),
 ]
-AI_DEVICE_CHOICES = [("Auto (Ollama decides)", "auto"), ("CPU", "cpu"), ("GPU", "gpu")]
+AI_MODEL_CHOICES = enhancer.model_choices()
 
 
 def _seq_to_combo(seq: QKeySequence) -> str:
@@ -200,37 +200,31 @@ class SettingsWindow(QWidget):
         self.cb_ai.setChecked(bool(config.get("ai_format")))
         ai_form.addRow(self.cb_ai)
 
-        self.ai_model_edit = QLineEdit(config.get("ai_model") or "gemma3:1b")
-        ai_form.addRow("Model", self.ai_model_edit)
-
-        self.ai_device_combo = QComboBox()
-        _fill(self.ai_device_combo, AI_DEVICE_CHOICES, config.get("ai_device"))
-        ai_form.addRow("Run on", self.ai_device_combo)
-
-        self.ai_url_edit = QLineEdit(config.get("ai_url") or "http://localhost:11434")
-        ai_form.addRow("Ollama URL", self.ai_url_edit)
+        self.ai_model_combo = QComboBox()
+        _fill(self.ai_model_combo, AI_MODEL_CHOICES, config.get("ai_model"))
+        ai_form.addRow("Model", self.ai_model_combo)
 
         self.ai_instr_edit = QLineEdit(config.get("ai_instructions") or "")
         self.ai_instr_edit.setPlaceholderText("Optional extra style instructions")
         ai_form.addRow("Style note", self.ai_instr_edit)
 
         test_row = QHBoxLayout()
-        self.ai_test_btn = QPushButton("Test")
-        self.ai_test_btn.clicked.connect(self._test_ai)
-        test_row.addWidget(self.ai_test_btn)
         self.ai_dl_btn = QPushButton("Download model")
         self.ai_dl_btn.clicked.connect(self._download_model)
         test_row.addWidget(self.ai_dl_btn)
+        self.ai_test_btn = QPushButton("Test")
+        self.ai_test_btn.clicked.connect(self._test_ai)
+        test_row.addWidget(self.ai_test_btn)
         self.ai_status = QLabel("")
         self.ai_status.setWordWrap(True)
         test_row.addWidget(self.ai_status, 1)
         ai_form.addRow(test_row)
 
         help_lbl = QLabel(
-            'Needs <a href="https://ollama.com">Ollama</a>: install it, then run '
-            "<code>ollama pull gemma3:1b</code>. Off by default - set it up and test here first."
+            "Runs fully on your machine - no Ollama, no internet after the model "
+            "downloads once. The model is fetched automatically the first time you "
+            "use it (or click Download). It only fixes punctuation and capitalization."
         )
-        help_lbl.setOpenExternalLinks(True)
         help_lbl.setWordWrap(True)
         help_lbl.setStyleSheet("color:#888; font-size:11px;")
         ai_form.addRow(help_lbl)
@@ -244,16 +238,12 @@ class SettingsWindow(QWidget):
         self._set_ai_busy(True)
         self.ai_status.setStyleSheet("color:#555;")
         self.ai_status.setText("Testing...")
-        url = self.ai_url_edit.text().strip() or None
-        model = self.ai_model_edit.text().strip() or None
-        device = self.ai_device_combo.currentData()
-        threading.Thread(target=self._test_ai_worker, args=(url, model, device), daemon=True).start()
+        model_key = self.ai_model_combo.currentData()
+        threading.Thread(target=self._test_ai_worker, args=(model_key,), daemon=True).start()
 
-    def _test_ai_worker(self, url, model, device) -> None:
-        from . import enhancer
-
+    def _test_ai_worker(self, model_key) -> None:
         try:
-            eng = enhancer.OllamaEnhancer(url=url, model=model, device=device)
+            eng = enhancer.LocalEnhancer(model_key=model_key)
             ok, msg = eng.available()
             if not ok:
                 self._sigAiStatus.emit(msg, False)
@@ -269,38 +259,29 @@ class SettingsWindow(QWidget):
         self._set_ai_busy(True)
         self.ai_status.setStyleSheet("color:#555;")
         self.ai_status.setText("Preparing download...")
-        url = self.ai_url_edit.text().strip() or None
-        model = self.ai_model_edit.text().strip() or None
-        threading.Thread(target=self._download_model_worker, args=(url, model), daemon=True).start()
+        model_key = self.ai_model_combo.currentData()
+        threading.Thread(target=self._download_model_worker, args=(model_key,), daemon=True).start()
 
-    def _download_model_worker(self, url, model) -> None:
-        from . import enhancer
-
-        eng = enhancer.OllamaEnhancer(url=url, model=model)
-        if not eng.server_reachable():
-            self._sigAiStatus.emit(
-                "Ollama isn't running. Install it (the WisperLocal installer can) and start it, then retry.",
-                False,
-            )
-            self._sigAiDone.emit()
-            return
-
+    def _download_model_worker(self, model_key) -> None:
+        spec = enhancer.resolve(model_key)
         last = [-1]
 
-        def _progress(obj):
-            total = obj.get("total") or 0
-            done = obj.get("completed") or 0
+        def _progress(done, total):
             if total > 0:
                 pct = int(done * 100 / total)
                 if pct != last[0]:
                     last[0] = pct
-                    self._sigAiStatus.emit(f"Downloading {model}... {pct}%", True)
-            else:
-                self._sigAiStatus.emit(f"{model}: {obj.get('status') or 'working'}", True)
+                    mb = 1048576
+                    self._sigAiStatus.emit(
+                        f"Downloading {spec.label}... {pct}% ({done // mb}/{total // mb} MB)", True
+                    )
 
         try:
-            eng.pull_model(progress=_progress)
-            self._sigAiStatus.emit(f"Model {model} is ready. Tick Enable, then Save.", True)
+            if enhancer.is_cached(spec):
+                self._sigAiStatus.emit(f"{spec.label} already downloaded. Tick Enable, then Save.", True)
+            else:
+                enhancer.download_model(spec, progress=_progress)
+                self._sigAiStatus.emit(f"{spec.label} is ready. Tick Enable, then Save.", True)
         except Exception as exc:
             self._sigAiStatus.emit(f"Download failed: {exc}", False)
         finally:
@@ -338,9 +319,7 @@ class SettingsWindow(QWidget):
             "spoken_commands": self.cb_commands.isChecked(),
             "remove_fillers": self.cb_fillers.isChecked(),
             "ai_format": self.cb_ai.isChecked(),
-            "ai_model": self.ai_model_edit.text().strip() or "gemma3:1b",
-            "ai_device": self.ai_device_combo.currentData(),
-            "ai_url": self.ai_url_edit.text().strip() or "http://localhost:11434",
+            "ai_model": self.ai_model_combo.currentData(),
             "ai_instructions": self.ai_instr_edit.text().strip(),
         })
         self.config.save()

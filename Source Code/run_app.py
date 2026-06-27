@@ -30,8 +30,9 @@ sys.excepthook = _excepthook
 
 
 def _selftest() -> int:
-    """Headless validation of the frozen transcription pipeline (model load +
-    CTranslate2 inference + ONNX VAD). Writes the outcome to selftest.log."""
+    """Headless validation of the frozen pipeline: Whisper (model load +
+    CTranslate2 inference + ONNX VAD) and the in-process LLM enhancer (llama.cpp
+    native libs). Writes the outcome to selftest.log."""
     log = _log_path().with_name("selftest.log")
     try:
         import numpy as np
@@ -40,10 +41,22 @@ def _selftest() -> int:
 
         tr = Transcriber("tiny.en", "cpu", "int8")
         text = tr.transcribe(np.zeros(16000, dtype=np.float32), language="en", vad_filter=True)
+
+        # Confirm the bundled llama.cpp native libs import and run. Only exercise
+        # inference if the model is already cached (don't trigger a download).
+        import llama_cpp  # noqa: F401
+        from wisperlocal import enhancer
+
+        spec = enhancer.resolve(None)
+        llm_note = "imported (model not cached)"
+        if enhancer.is_cached(spec):
+            out = enhancer.LocalEnhancer(spec.key).enhance("so i think this works")
+            llm_note = f"enhanced={out!r}"
+
         log.parent.mkdir(parents=True, exist_ok=True)
         log.write_text(
             f"OK cuda={cuda_available()} device={tr.active_device} "
-            f"compute={tr.active_compute} out={text!r}\n",
+            f"compute={tr.active_compute} out={text!r} llama_cpp={llm_note}\n",
             encoding="utf-8",
         )
         return 0

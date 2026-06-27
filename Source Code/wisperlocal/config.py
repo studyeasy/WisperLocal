@@ -34,13 +34,10 @@ DEFAULTS = {
     "auto_capitalize": True,      # sentence-start + standalone "I" capitalization
     "spoken_commands": True,      # "new line" / "new paragraph" / "bullet point"
     "remove_fillers": False,      # strip um / uh / erm ...
-    # Enhanced writing - optional local-LLM polish (OFF by default)
+    # Enhanced writing - optional local-LLM polish (OFF by default).
+    # Runs fully in-process via llama-cpp-python; no server/Ollama needed.
     "ai_format": False,           # master on/off
-    "ai_provider": "ollama",      # ollama (local); other backends could be added later
-    "ai_model": "gemma3:1b",      # small local model
-    "ai_url": "http://localhost:11434",
-    "ai_device": "auto",          # auto | cpu | gpu  (how Ollama runs the LLM)
-    "ai_timeout": 120,            # seconds (generous for the first cold model load)
+    "ai_model": "qwen2.5-0.5b",   # key into enhancer.MODELS (downloaded on demand)
     "ai_instructions": "",        # optional extra style guidance
 }
 
