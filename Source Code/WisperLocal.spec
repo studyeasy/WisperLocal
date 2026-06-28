@@ -6,6 +6,7 @@ structured so a macOS build (Metal) can be produced in CI. Platform-specific
 hidden imports and the app icon are selected per OS.
 """
 
+import os
 import sys
 
 from PyInstaller.utils.hooks import collect_all
@@ -27,6 +28,19 @@ elif sys.platform == "darwin":
     hiddenimports += ["pynput.keyboard._darwin", "pynput.mouse._darwin"]
 
 _icon = "assets/icon.ico" if sys.platform == "win32" else None
+
+# Bundle the Vulkan loader next to the GPU backend so it loads even on machines
+# whose GPU driver didn't install one. With no GPU, Vulkan reports 0 devices and
+# llama.cpp falls back to the (portable) CPU backend - so the build runs on any
+# hardware: GPU-accelerated where a GPU is present, CPU everywhere else.
+if sys.platform == "win32":
+    for _cand in (
+        os.path.join(os.environ.get("SystemRoot", r"C:\Windows"), "System32", "vulkan-1.dll"),
+        os.path.join(os.environ.get("VULKAN_SDK", ""), "Bin", "vulkan-1.dll"),
+    ):
+        if _cand and os.path.exists(_cand):
+            binaries += [(_cand, "llama_cpp/lib")]
+            break
 
 a = Analysis(
     ["run_app.py"],

@@ -3,6 +3,10 @@
 All notable changes to WisperLocal are documented here.
 This project follows [Semantic Versioning](https://semver.org).
 
+## [0.6.2] - 2026-06-28
+### Added
+- **GPU acceleration with automatic CPU fallback.** Enhanced writing now runs on the GPU when one is present — via the cross-vendor **Vulkan** backend (NVIDIA, AMD, Intel) — and falls back to the CPU otherwise. The hardware is detected automatically: model layers are offloaded to the GPU, and if there's no GPU (or it can't initialize) it runs on the CPU. The CPU backend is still built portably (no AVX2), so the same installer runs on any x86-64 machine, with or without a GPU.
+
 ## [0.6.1] - 2026-06-28
 ### Fixed
 - **Enhanced writing crashed on some PCs** with "Failed to load model: WinError -1073741795 (0xC000001D)". The bundled LLM library used a prebuilt wheel compiled for AVX2; CPUs without AVX2 hit an illegal instruction. The library is now built from source with AVX/AVX2/AVX-512 disabled, so it runs on **any x86-64 CPU**.

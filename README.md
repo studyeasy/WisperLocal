@@ -2,7 +2,7 @@
   <img src="Source Code/docs/banner.svg" alt="WisperLocal — private, on-device dictation for Windows" width="100%">
 </p>
 
-> ## 📦 To install: double-click **`WisperLocal-Setup-0.6.1.exe`**
+> ## 📦 To install: double-click **`WisperLocal-Setup-0.6.2.exe`**
 > That's everything you need — no Python, no setup, no command line. Once installed, you can delete this folder.
 >
 > The **`Source Code`** folder next to the installer holds the full project (Python code, build scripts, installer config, docs, and tests). You only need it to build or modify WisperLocal for future development — not to use the app.
@@ -59,7 +59,7 @@ Grab **`WisperLocal-Setup.exe`** from the [latest release](../../releases) and r
 | 🌊 **Live listening overlay** | Floating waveform with cancel / insert buttons |
 | 📋 **Pastes at the cursor** | Works in any app — keeps your place, no window-switching |
 | ✍️ **Built-in formatting** | Capitalization, punctuation, spoken commands, filler removal |
-| 🤖 **Optional AI polish** | Fix punctuation with a small **local** LLM (Qwen / Llama / Gemma) — never rewrites your words |
+| 🤖 **Optional AI polish** | Fix punctuation with a small **local** LLM (Qwen / Llama / Gemma) — GPU-accelerated, CPU fallback, never rewrites your words |
 | 🧠 **Any Whisper model** | `tiny` → `large-v3-turbo`, downloaded on demand with a progress bar |
 | ⚡ **CPU or GPU** | Runs on CPU; auto-uses your NVIDIA GPU when available |
 | 🔁 **Toggle or push-to-talk** | Whichever recording style you prefer |
@@ -92,7 +92,7 @@ Pick speed vs. accuracy — models download on demand with a progress bar, so th
 
 ## 🤖 Enhanced writing
 
-For an extra touch of polish, WisperLocal can run your transcript through a **small local language model** that runs **fully in-process** — no Ollama, no server, nothing to keep running. Pick a lightweight model in Settings (Qwen 0.5B/1.5B, Llama 3.2 1B, or Google Gemma 2 2B); it downloads itself once from Hugging Face and is cached on your machine, then runs offline. It's deliberately **conservative** — it only fixes punctuation and capitalization and **never rewrites, rephrases, or reorders your words** — and is **off by default**.
+For an extra touch of polish, WisperLocal can run your transcript through a **small local language model** that runs **fully in-process** — no Ollama, no server, nothing to keep running. Pick a lightweight model in Settings (Qwen 0.5B/1.5B, Llama 3.2 1B, or Google Gemma 2 2B); it downloads itself once from Hugging Face and is cached on your machine, then runs offline. It uses your **GPU when one is available** (cross-vendor, via Vulkan) and **falls back to the CPU automatically** otherwise. It's deliberately **conservative** — it only fixes punctuation and capitalization and **never rewrites, rephrases, or reorders your words** — and is **off by default**.
 
 ```text
 "so i think we should ship the feature on friday and tell the team"
@@ -172,7 +172,7 @@ Details (GPU bundling, Inno Setup) in [PACKAGING.md](Source Code/docs/PACKAGING.
 
 ```
 WisperLocal/
-├── WisperLocal-Setup-0.6.1.exe   # the installer — double-click to install
+├── WisperLocal-Setup-0.6.2.exe   # the installer — double-click to install
 ├── README.md  CHANGELOG.md       # this file + version history
 └── Source Code/                  # full project, for future development
     ├── LICENSE  requirements.txt

@@ -3,7 +3,7 @@
 ;   iscc installer\WisperLocal.iss
 
 #define MyAppName "WisperLocal"
-#define MyAppVersion "0.6.1"
+#define MyAppVersion "0.6.2"
 #define MyAppPublisher "WisperLocal"
 #define MyAppExeName "WisperLocal.exe"
 

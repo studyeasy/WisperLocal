@@ -9,14 +9,21 @@ huggingface_hub>=0.21     # Download/cache Whisper + LLM models (also via faster
 
 # Enhanced writing: in-process LLM (no server, no Ollama).
 #
-# IMPORTANT - build for broad CPU compatibility. The prebuilt CPU wheels target
-# AVX2, which CRASHES (illegal instruction, 0xC000001D) on CPUs without AVX2.
-# Build from source with AVX disabled so the app runs on ANY x86-64 CPU:
+# IMPORTANT - the released build is compiled from source so it both (a) uses the
+# GPU when present and (b) runs on ANY x86-64 CPU. Two reasons not to use the
+# prebuilt wheel: it has no GPU backend, and its CPU code targets AVX2 (which
+# CRASHES with "illegal instruction" 0xC000001D on CPUs without AVX2).
 #
-#   set CMAKE_ARGS=-DGGML_NATIVE=OFF -DGGML_AVX=OFF -DGGML_AVX2=OFF -DGGML_AVX512=OFF -DGGML_FMA=OFF -DGGML_F16C=OFF
+# GPU build (cross-vendor Vulkan + portable CPU fallback). Needs the Vulkan SDK
+# (https://vulkan.lunarg.com or `winget install KhronosGroup.VulkanSDK`):
+#
+#   set VULKAN_SDK=C:\VulkanSDK\<version>
+#   set CMAKE_ARGS=-DGGML_VULKAN=ON -DGGML_NATIVE=OFF -DGGML_AVX=OFF -DGGML_AVX2=OFF -DGGML_AVX512=OFF -DGGML_FMA=OFF -DGGML_F16C=OFF
 #   set CMAKE_GENERATOR=Visual Studio 17 2022
-#   pip install --no-binary llama-cpp-python "llama-cpp-python==0.3.30"
+#   pip install --no-binary llama-cpp-python --no-cache-dir "llama-cpp-python==0.3.30"
 #
-# (GPU builds - CUDA/Vulkan/Metal - are produced per-target in CI; the code
-#  auto-offloads to the GPU when a GPU-capable build is installed.)
-llama-cpp-python==0.3.30  # Runs quantized GGUF models locally (CPU; GPU via per-target build)
+# (--no-cache-dir matters: pip will otherwise reuse a previously built wheel and
+#  silently ignore changed CMAKE_ARGS. macOS uses -DGGML_METAL=ON instead.)
+# The PyInstaller spec bundles vulkan-1.dll so the GPU backend always loads;
+# with no GPU it reports 0 devices and llama.cpp uses the CPU backend.
+llama-cpp-python==0.3.30  # Quantized GGUF models, in-process (GPU via Vulkan, CPU fallback)
