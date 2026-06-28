@@ -7,7 +7,16 @@ pyperclip>=1.8.2          # Clipboard read/write for paste-at-cursor
 PySide6>=6.6              # Settings window + system tray icon
 huggingface_hub>=0.21     # Download/cache Whisper + LLM models (also via faster-whisper)
 
-# Enhanced writing: in-process LLM (no server). CPU wheels are prebuilt, so
-# install from the llama-cpp-python CPU wheel index to avoid a local compile:
-#   pip install llama-cpp-python --extra-index-url https://abetlen.github.io/llama-cpp-python/whl/cpu
-llama-cpp-python>=0.3.0   # Runs quantized GGUF models locally on CPU
+# Enhanced writing: in-process LLM (no server, no Ollama).
+#
+# IMPORTANT - build for broad CPU compatibility. The prebuilt CPU wheels target
+# AVX2, which CRASHES (illegal instruction, 0xC000001D) on CPUs without AVX2.
+# Build from source with AVX disabled so the app runs on ANY x86-64 CPU:
+#
+#   set CMAKE_ARGS=-DGGML_NATIVE=OFF -DGGML_AVX=OFF -DGGML_AVX2=OFF -DGGML_AVX512=OFF -DGGML_FMA=OFF -DGGML_F16C=OFF
+#   set CMAKE_GENERATOR=Visual Studio 17 2022
+#   pip install --no-binary llama-cpp-python "llama-cpp-python==0.3.30"
+#
+# (GPU builds - CUDA/Vulkan/Metal - are produced per-target in CI; the code
+#  auto-offloads to the GPU when a GPU-capable build is installed.)
+llama-cpp-python==0.3.30  # Runs quantized GGUF models locally (CPU; GPU via per-target build)

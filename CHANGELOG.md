@@ -3,6 +3,12 @@
 All notable changes to WisperLocal are documented here.
 This project follows [Semantic Versioning](https://semver.org).
 
+## [0.6.1] - 2026-06-28
+### Fixed
+- **Enhanced writing crashed on some PCs** with "Failed to load model: WinError -1073741795 (0xC000001D)". The bundled LLM library used a prebuilt wheel compiled for AVX2; CPUs without AVX2 hit an illegal instruction. The library is now built from source with AVX/AVX2/AVX-512 disabled, so it runs on **any x86-64 CPU**.
+### Added
+- The LLM now **auto-offloads to the GPU** when a GPU-capable build is installed (falls back to CPU otherwise), so the same model runs GPU-accelerated where a GPU is present and on CPU everywhere else. Cross-vendor GPU (Vulkan) and macOS (Metal) builds are produced per-target.
+
 ## [0.6.0] - 2026-06-25
 ### Changed
 - **Enhanced writing now runs fully in-process — Ollama is no longer required.** The previous version depended on a separate Ollama server that often wasn't running, so enhancement silently failed. WisperLocal now runs a small quantized LLM directly inside the app via llama.cpp.

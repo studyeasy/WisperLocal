@@ -132,10 +132,21 @@ def _load(spec: ModelSpec):
         raise EnhancerError(f"Local LLM runtime unavailable: {exc}") from exc
 
     n_threads = max(2, (os.cpu_count() or 4) // 2)
+    # Try to offload all layers to the GPU; this is a no-op on a CPU-only build
+    # and on machines without a supported GPU. If a GPU attempt fails for any
+    # reason, fall back to pure CPU so dictation always works. This makes the
+    # same model run GPU-accelerated where a GPU build + device are present and
+    # CPU everywhere else, with no extra configuration.
+    llm = None
     try:
-        llm = Llama(model_path=path, n_ctx=2048, n_threads=n_threads, verbose=False)
-    except Exception as exc:
-        raise EnhancerError(f"Failed to load model: {exc}") from exc
+        llm = Llama(model_path=path, n_ctx=2048, n_threads=n_threads,
+                    n_gpu_layers=-1, verbose=False)
+    except Exception:
+        try:
+            llm = Llama(model_path=path, n_ctx=2048, n_threads=n_threads,
+                        n_gpu_layers=0, verbose=False)
+        except Exception as exc:
+            raise EnhancerError(f"Failed to load model: {exc}") from exc
 
     # Release the previous model before swapping in the new one.
     _loaded_llm = None
