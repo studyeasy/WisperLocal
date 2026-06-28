@@ -1,0 +1,141 @@
+name: Build & Release
+
+# Builds WisperLocal with GPU-accelerated enhanced writing and publishes the
+# installers. The enhanced-writing LLM (llama.cpp) is compiled per platform:
+#
+#   * Windows -> VULKAN backend  -> accelerates on NVIDIA / AMD / Intel GPUs,
+#                                   falls back to CPU when there's no GPU.
+#   * macOS   -> METAL backend   -> Apple Silicon GPU (experimental, see below).
+#
+# On every build the CPU code is compiled with AVX/AVX2 disabled so it also runs
+# on older CPUs (this is the 0.6.1 fix for the "illegal instruction" crash).
+#
+# Trigger:
+#   * push a tag like v0.6.2  -> builds and attaches the installers to a Release
+#   * "Run workflow" (Actions tab, workflow_dispatch) -> builds downloadable artifacts
+#
+# NOTE: the macOS job is EXPERIMENTAL. The app currently has Windows-specific
+# behaviour (paste via Ctrl+V, start-with-Windows via the registry). It will
+# build on macOS, but full functionality needs platform adaptation, so the job
+# is allowed to fail without blocking the Windows release.
+
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch: {}
+
+permissions:
+  contents: write   # required to create the GitHub Release on tag
+
+jobs:
+  windows:
+    name: Windows (Vulkan GPU + portable CPU)
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: pwsh
+        working-directory: Source Code
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install the Vulkan SDK
+        uses: humbletim/install-vulkan-sdk@v1.2
+        with:
+          vulkan-query-version: latest
+          vulkan-components: Vulkan-Headers, Vulkan-Loader
+          vulkan-use-cache: true
+
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pyinstaller
+
+      - name: Build llama-cpp-python (Vulkan GPU + portable CPU)
+        env:
+          # Vulkan ON = GPU on any vendor; AVX* OFF = CPU fallback runs anywhere.
+          CMAKE_ARGS: "-DGGML_VULKAN=ON -DGGML_NATIVE=OFF -DGGML_AVX=OFF -DGGML_AVX2=OFF -DGGML_AVX512=OFF -DGGML_FMA=OFF -DGGML_F16C=OFF"
+        run: pip install --no-binary llama-cpp-python --force-reinstall "llama-cpp-python==0.3.30"
+
+      - name: Build the app (PyInstaller)
+        run: |
+          python tools/gen_icon.py
+          pyinstaller --noconfirm WisperLocal.spec
+
+      - name: Sanity-check the frozen build
+        run: |
+          .\dist\WisperLocal\WisperLocal.exe --selftest
+          Get-Content "$env:APPDATA\WisperLocal\selftest.log"
+
+      - name: Install Inno Setup
+        run: choco install innosetup -y --no-progress
+
+      - name: Build the installer
+        run: '& "${env:ProgramFiles(x86)}\Inno Setup 6\ISCC.exe" installer\WisperLocal.iss'
+
+      - name: Upload installer artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: WisperLocal-Windows-Setup
+          path: Source Code/installer_output/*.exe
+
+  macos:
+    name: macOS (Metal, experimental)
+    runs-on: macos-14   # Apple Silicon (arm64)
+    continue-on-error: true   # experimental: don't block the Windows release
+    defaults:
+      run:
+        shell: bash
+        working-directory: Source Code
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pyinstaller
+
+      - name: Build llama-cpp-python (Metal)
+        env:
+          CMAKE_ARGS: "-DGGML_METAL=ON"
+        run: pip install --no-binary llama-cpp-python --force-reinstall "llama-cpp-python==0.3.30"
+
+      - name: Build the app (PyInstaller)
+        run: pyinstaller --noconfirm WisperLocal.spec
+
+      - name: Package the .app into a zip
+        run: |
+          cd dist
+          zip -r -y WisperLocal-macOS.zip WisperLocal.app
+
+      - name: Upload macOS artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: WisperLocal-macOS
+          path: Source Code/dist/WisperLocal-macOS.zip
+
+  release:
+    name: Publish GitHub Release
+    needs: [windows]   # Windows is required; macOS is best-effort
+    if: startsWith(github.ref, 'refs/tags/')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download all build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: Publish to the Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: artifacts/**/*
+          generate_release_notes: true

@@ -1,5 +1,12 @@
 # -*- mode: python ; coding: utf-8 -*-
-"""PyInstaller spec: bundles WisperLocal into dist/WisperLocal/."""
+"""PyInstaller spec: bundles WisperLocal into dist/WisperLocal/.
+
+Cross-platform: builds on Windows (.exe + Inno Setup installer) and is
+structured so a macOS build (Metal) can be produced in CI. Platform-specific
+hidden imports and the app icon are selected per OS.
+"""
+
+import sys
 
 from PyInstaller.utils.hooks import collect_all
 
@@ -13,7 +20,13 @@ for pkg in ("faster_whisper", "ctranslate2", "onnxruntime", "av", "sounddevice",
     binaries += b
     hiddenimports += h
 
-hiddenimports += ["pynput.keyboard._win32", "pynput.mouse._win32"]
+# pynput's backend modules are platform-specific and must be hinted explicitly.
+if sys.platform == "win32":
+    hiddenimports += ["pynput.keyboard._win32", "pynput.mouse._win32"]
+elif sys.platform == "darwin":
+    hiddenimports += ["pynput.keyboard._darwin", "pynput.mouse._darwin"]
+
+_icon = "assets/icon.ico" if sys.platform == "win32" else None
 
 a = Analysis(
     ["run_app.py"],
@@ -38,7 +51,7 @@ exe = EXE(
     strip=False,
     upx=False,
     console=False,
-    icon="assets/icon.ico",
+    icon=_icon,
 )
 
 coll = COLLECT(
@@ -49,3 +62,12 @@ coll = COLLECT(
     upx=False,
     name="WisperLocal",
 )
+
+# On macOS, wrap the collected app into a proper .app bundle.
+if sys.platform == "darwin":
+    app = BUNDLE(
+        coll,
+        name="WisperLocal.app",
+        icon=None,
+        bundle_identifier="com.studyeasy.wisperlocal",
+    )

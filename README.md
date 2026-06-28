@@ -187,7 +187,7 @@ WisperLocal/
 ```
 </details>
 
-**Releasing:** see **[RELEASING.md](Source Code/docs/RELEASING.md)** and **[CHANGELOG.md](CHANGELOG.md)**. Pushing a `vX.Y.Z` tag builds the app + installer and publishes a GitHub Release.
+**Releasing:** see **[RELEASING.md](Source Code/docs/RELEASING.md)** and **[CHANGELOG.md](CHANGELOG.md)**. Pushing a `vX.Y.Z` tag triggers [GitHub Actions](.github/workflows/release.yml), which builds the GPU-accelerated installer and publishes a Release. The CI builds llama.cpp with the **Vulkan** backend (GPU on NVIDIA/AMD/Intel, CPU fallback) and AVX disabled (runs on any CPU). A macOS (Metal) job is included but experimental — the app still needs platform adaptation (paste keystroke, startup mechanism) to be fully functional there.
 
 ## 🛠️ Built with
 
