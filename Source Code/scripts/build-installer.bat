@@ -28,5 +28,11 @@ if errorlevel 1 (
 )
 
 echo.
+echo Signing installer (skipped if no code-signing cert is present)...
+for %%f in ("installer_output\WisperLocal-Setup-*.exe") do (
+  powershell -NoProfile -ExecutionPolicy Bypass -File "scripts\sign.ps1" "%%~ff"
+)
+
+echo.
 echo Installer created in:  installer_output\
 pause

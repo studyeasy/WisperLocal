@@ -50,6 +50,8 @@ It's **free and unlimited** — no accounts, no subscriptions, no telemetry, no 
 Grab **`WisperLocal-Setup.exe`** from the [latest release](../../releases) and run it — it's a **per-user installer, no admin required**. A 🎙️ icon then appears in your system tray. (Optional AI enhancement needs nothing extra — the model downloads itself on first use.)
 
 > **Requirements:** Windows 10 or 11 · a microphone. Whisper models download automatically the first time you use them.
+>
+> ℹ️ The installer isn't signed by a recognised publisher yet, so Windows SmartScreen shows a **"Windows protected your PC"** warning — click **More info → Run anyway**. (To remove the warning on your own machines, see [code signing](Source Code/docs/CODE_SIGNING.md).)
 
 ## ✨ Features
 
