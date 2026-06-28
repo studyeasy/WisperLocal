@@ -77,6 +77,34 @@ jobs:
       - name: Build the installer
         run: '& "${env:ProgramFiles(x86)}\Inno Setup 6\ISCC.exe" installer\WisperLocal.iss'
 
+      # Trusted, public-wide code signing via Azure Trusted Signing (~$10/mo).
+      # This is what removes the SmartScreen "Unknown publisher" warning for ALL
+      # users (self-signing only works on machines that imported the cert).
+      #
+      # Activates automatically once you set the repo VARIABLE  ENABLE_SIGNING=true
+      # (Settings > Secrets and variables > Actions > Variables) and these:
+      #   Variables: TRUSTED_SIGNING_ENDPOINT (e.g. https://eus.codesigning.azure.net)
+      #              TRUSTED_SIGNING_ACCOUNT, TRUSTED_SIGNING_PROFILE
+      #   Secrets:   AZURE_TENANT_ID, AZURE_CLIENT_ID, AZURE_CLIENT_SECRET
+      #              (a service principal granted "Trusted Signing Certificate
+      #               Profile Signer" on the signing account)
+      # Until then the step is skipped and the installer ships unsigned.
+      - name: Sign installer (Azure Trusted Signing)
+        if: ${{ vars.ENABLE_SIGNING == 'true' }}
+        uses: azure/trusted-signing-action@v0
+        with:
+          azure-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          azure-client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          azure-client-secret: ${{ secrets.AZURE_CLIENT_SECRET }}
+          endpoint: ${{ vars.TRUSTED_SIGNING_ENDPOINT }}
+          trusted-signing-account-name: ${{ vars.TRUSTED_SIGNING_ACCOUNT }}
+          certificate-profile-name: ${{ vars.TRUSTED_SIGNING_PROFILE }}
+          files-folder: ${{ github.workspace }}/Source Code/installer_output
+          files-folder-filter: exe
+          file-digest: SHA256
+          timestamp-rfc3161: http://timestamp.acs.microsoft.com
+          timestamp-digest: SHA256
+
       - name: Upload installer artifact
         uses: actions/upload-artifact@v4
         with:

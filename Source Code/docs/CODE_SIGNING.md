@@ -53,14 +53,39 @@ Export-Certificate -Cert $cert -FilePath WisperLocal-CodeSigning.cer   # public 
 The private key stays in `Cert:\CurrentUser\My` and is **never** committed. Only
 the public `.cer` is distributed (so users can trust your signature).
 
-## Public distribution
+## Public distribution (the permanent fix — no popups for anyone)
 
-Self-signing can't earn SmartScreen trust for strangers. For that, sign with a
-real certificate — the signing step is the same, only the certificate differs:
+Self-signing can't earn SmartScreen trust for strangers. For a real public fix
+you need a certificate Microsoft trusts. Options, easiest/cheapest first:
 
-- **Azure Trusted Signing** (~$10/month) — cloud signing, good SmartScreen trust;
-  best value for a small project.
-- **EV code-signing certificate** (~$300–600/yr, hardware token) — instant
-  SmartScreen reputation, no warnings.
-- **OV code-signing certificate** — cheaper, but SmartScreen may still warn until
-  the app builds download reputation.
+| Option | Cost | Removes warning for everyone? | Friction |
+|---|---|---|---|
+| **Azure Trusted Signing** | ~$10/month | Yes (good standing) | Azure account + identity check; CI-native. **Recommended.** |
+| **EV code-signing cert** | ~$300–600/yr | Yes, instantly | Hardware token (USB/HSM); org validation. |
+| **OV code-signing cert** | ~$200–400/yr | Eventually | Warns until download reputation builds. |
+
+### Setting up Azure Trusted Signing (recommended)
+
+This is built into the release pipeline already — `.github/workflows/release.yml`
+signs the installer with Trusted Signing automatically once it's configured.
+
+1. Create/sign in to an **Azure** subscription (pay-as-you-go).
+2. In the portal, create a **Trusted Signing account** (search "Trusted Signing").
+3. Complete **Identity Validation** (individual or organization). This is the
+   gate — Microsoft verifies who you are; allow a few days.
+4. Create a **Certificate Profile** under the account (this is your publisher
+   identity that appears instead of "Unknown publisher").
+5. Create an **App registration** (service principal) and grant it the
+   **"Trusted Signing Certificate Profile Signer"** role on the account.
+6. In GitHub → **Settings → Secrets and variables → Actions**, add:
+   - **Variables:** `ENABLE_SIGNING=true`, `TRUSTED_SIGNING_ENDPOINT`
+     (e.g. `https://eus.codesigning.azure.net`), `TRUSTED_SIGNING_ACCOUNT`,
+     `TRUSTED_SIGNING_PROFILE`
+   - **Secrets:** `AZURE_TENANT_ID`, `AZURE_CLIENT_ID`, `AZURE_CLIENT_SECRET`
+     (from the app registration)
+7. Push a version tag (e.g. `v0.6.3`). CI builds, signs with Trusted Signing,
+   and publishes a Release whose installer shows **your** publisher name with no
+   SmartScreen warning for anyone.
+
+Nothing else changes — the self-signed setup above stays as the free fallback
+for local builds; Trusted Signing only kicks in when those values are present.
