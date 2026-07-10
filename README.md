@@ -166,13 +166,26 @@ scripts\run.bat       # start it (or double-click scripts\run-hidden.vbs for no 
 </details>
 
 <details>
-<summary><strong>Build the app &amp; installer</strong></summary>
+<summary><strong>Build the app &amp; installer (generate the .exe)</strong></summary>
 
-```bash
-cd "Source Code"
-scripts\build.bat            # PyInstaller -> dist\WisperLocal\WisperLocal.exe
-scripts\build-installer.bat  # Inno Setup  -> installer_output\WisperLocal-Setup-x.y.z.exe
-```
+Step-by-step, from a fresh clone to a shippable `WisperLocal-Setup-x.y.z.exe`:
+
+1. **Install the prerequisites** — [Python 3.12](https://www.python.org/downloads/) and [Inno Setup 6](https://jrsoftware.org/isdl.php) (only needed for step 4).
+2. **Open a terminal in the `Source Code` folder** and set up the environment:
+   ```bat
+   cd "Source Code"
+   scripts\setup.bat            :: creates a venv and installs all dependencies
+   ```
+3. **Build the app** with PyInstaller:
+   ```bat
+   scripts\build.bat            :: -> dist\WisperLocal\WisperLocal.exe
+   ```
+4. **Build the installer** with Inno Setup:
+   ```bat
+   scripts\build-installer.bat  :: -> installer_output\WisperLocal-Setup-x.y.z.exe
+   ```
+5. Done — the installer in `installer_output\` is the file you ship (the same kind of file served at [tools.dubnext.com](https://tools.dubnext.com/tools/whisper-local)).
+
 Details (GPU bundling, Inno Setup) in [PACKAGING.md](Source Code/docs/PACKAGING.md).
 </details>
 
