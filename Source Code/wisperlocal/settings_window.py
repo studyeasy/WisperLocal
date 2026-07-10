@@ -141,8 +141,10 @@ class SettingsWindow(QWidget):
         self.cb_overlay.setChecked(bool(config.get("show_overlay")))
         self.cb_startup = QCheckBox("Start WisperLocal when Windows starts")
         self.cb_startup.setChecked(startup.is_enabled())
-        self.cb_save_transcripts = QCheckBox("Save transcripts to Data/Raw Speech-to-Text Dictation/")
+        self.cb_save_transcripts = QCheckBox("Save a copy of each dictation (transcript history)")
         self.cb_save_transcripts.setChecked(bool(config.get("save_transcripts")))
+        from .output import _TRANSCRIPT_DIR
+        self.cb_save_transcripts.setToolTip(f"Saved to: {_TRANSCRIPT_DIR}")
 
         self.cb_capitalize = QCheckBox('Auto-capitalize sentences and "I"')
         self.cb_capitalize.setChecked(bool(config.get("auto_capitalize")))

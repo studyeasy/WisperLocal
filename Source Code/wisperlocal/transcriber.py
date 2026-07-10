@@ -118,6 +118,10 @@ class Transcriber:
             vad_filter=vad_filter,
             initial_prompt=initial_prompt or None,
             beam_size=5,
+            # Dictation is one short utterance: conditioning on previous text
+            # mainly causes repetition/hallucination loops on pauses and adds
+            # latency, so keep each window independent.
+            condition_on_previous_text=False,
         )
         text = "".join(seg.text for seg in segments)
         return _clean(text)

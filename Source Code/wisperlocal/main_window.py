@@ -122,6 +122,20 @@ class MainWindow(QWidget):
         btn_row.addWidget(close_btn)
         root.addLayout(btn_row)
 
+        # Credit footer
+        root.addWidget(_hline())
+        from . import __version__
+        credit = QLabel(
+            f'WisperLocal v{__version__}  ·  Created by '
+            f'<a href="https://www.linkedin.com/in/chand-sheikh/" '
+            f'style="color:#2563EB; text-decoration:none;">Chaand Sheikh</a>'
+        )
+        credit.setOpenExternalLinks(True)
+        credit.setAlignment(Qt.AlignCenter)
+        credit.setStyleSheet("color:#888; font-size:11px;")
+        credit.setToolTip("Open Chaand Sheikh's LinkedIn profile")
+        root.addWidget(credit)
+
         # signals
         self._model_state = "loading"
         self._dl_text = ""

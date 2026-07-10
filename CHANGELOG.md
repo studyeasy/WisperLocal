@@ -3,6 +3,16 @@
 All notable changes to WisperLocal are documented here.
 This project follows [Semantic Versioning](https://semver.org).
 
+## [0.6.3] - 2026-06-29
+### Added
+- **Publisher identity**: the installer and code-signing certificate now identify the publisher as **Chaand Sheikh**, and the home window shows a credit with a link to [linkedin.com/in/chand-sheikh](https://www.linkedin.com/in/chand-sheikh/).
+### Changed
+- **Faster, steadier transcription**: Whisper no longer conditions each window on previous text — for short dictation this removes a common cause of repeated/hallucinated phrases on pauses and shaves latency.
+- **Faster, deterministic enhancement**: the punctuation LLM now decodes greedily (temperature 0) — same input, same output, slightly quicker, and fewer cases where a random drift made WisperLocal fall back to the raw text.
+- The enhancer no longer re-scans the model cache on disk for every dictation (the model path is memoized).
+### Fixed
+- **Transcript history now saves to `%APPDATA%\WisperLocal\Data`** in the installed app instead of a folder buried inside the install directory — so saved dictations survive upgrades and uninstalls. (Running from source still uses the repo's `Data/` folder.)
+
 ## [0.6.2] - 2026-06-28
 ### Added
 - **GPU acceleration with automatic CPU fallback.** Enhanced writing now runs on the GPU when one is present — via the cross-vendor **Vulkan** backend (NVIDIA, AMD, Intel) — and falls back to the CPU otherwise. The hardware is detected automatically: model layers are offloaded to the GPU, and if there's no GPU (or it can't initialize) it runs on the CPU. The CPU backend is still built portably (no AVX2), so the same installer runs on any x86-64 machine, with or without a GPU.

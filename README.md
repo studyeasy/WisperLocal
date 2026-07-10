@@ -2,7 +2,7 @@
   <img src="Source Code/docs/banner.svg" alt="WisperLocal — private, on-device dictation for Windows" width="100%">
 </p>
 
-> ## 📦 To install: double-click **`WisperLocal-Setup-0.6.2.exe`**
+> ## 📦 To install: double-click **`WisperLocal-Setup-0.6.3.exe`**
 > That's everything you need — no Python, no setup, no command line. Once installed, you can delete this folder.
 >
 > The **`Source Code`** folder next to the installer holds the full project (Python code, build scripts, installer config, docs, and tests). You only need it to build or modify WisperLocal for future development — not to use the app.
@@ -32,7 +32,7 @@
 
 **WisperLocal** is a private, on-device dictation app for Windows — a free, local alternative to tools like Wispr Flow. Press a global hotkey, speak, and your words are transcribed by [Whisper](https://github.com/openai/whisper) and pasted straight into whatever app you're using. **Nothing leaves your machine** — audio is never uploaded, and after a one-time model download it works fully offline.
 
-It's **free and unlimited** — no accounts, no subscriptions, no telemetry, no per-word caps. A personal project by **Chaand Sheikh**.
+It's **free and unlimited** — no accounts, no subscriptions, no telemetry, no per-word caps. A personal project by **[Chaand Sheikh](https://www.linkedin.com/in/chand-sheikh/)**.
 
 <p align="center">
   <img src="Source Code/docs/overlay-live.png" alt="WisperLocal's floating overlay listening while dictating into a text editor" width="92%">
@@ -174,7 +174,7 @@ Details (GPU bundling, Inno Setup) in [PACKAGING.md](Source Code/docs/PACKAGING.
 
 ```
 WisperLocal/
-├── WisperLocal-Setup-0.6.2.exe   # the installer — double-click to install
+├── WisperLocal-Setup-0.6.3.exe   # the installer — double-click to install
 ├── README.md  CHANGELOG.md       # this file + version history
 └── Source Code/                  # full project, for future development
     ├── LICENSE  requirements.txt

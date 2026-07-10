@@ -3,8 +3,9 @@
 ;   iscc installer\WisperLocal.iss
 
 #define MyAppName "WisperLocal"
-#define MyAppVersion "0.6.2"
-#define MyAppPublisher "WisperLocal"
+#define MyAppVersion "0.6.3"
+#define MyAppPublisher "Chaand Sheikh"
+#define MyAppURL "https://www.linkedin.com/in/chand-sheikh/"
 #define MyAppExeName "WisperLocal.exe"
 
 [Setup]
@@ -12,6 +13,8 @@ AppId={{A2F4C8E1-7B3D-4E6A-9C2F-1D5B8E0A3C77}
 AppName={#MyAppName}
 AppVersion={#MyAppVersion}
 AppPublisher={#MyAppPublisher}
+AppPublisherURL={#MyAppURL}
+AppSupportURL={#MyAppURL}
 DefaultDirName={localappdata}\Programs\{#MyAppName}
 DefaultGroupName={#MyAppName}
 DisableProgramGroupPage=yes

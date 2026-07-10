@@ -13,6 +13,7 @@ a stale paste.
 """
 
 import datetime
+import sys
 import threading
 import time
 from pathlib import Path
@@ -22,7 +23,24 @@ from pynput.keyboard import Controller, Key
 
 _kb = Controller()
 
-_TRANSCRIPT_DIR = Path(__file__).parent.parent / "Data" / "Raw Speech-to-Text Dictation"
+
+def _transcript_dir() -> Path:
+    """Where dictation transcripts are saved.
+
+    Running from source: the repo's Data/ folder (next to wisperlocal/).
+    Frozen (installed app): %APPDATA%\\WisperLocal\\Data — NOT the install
+    directory, so transcripts survive upgrades/uninstalls and are easy to find.
+    """
+    if getattr(sys, "frozen", False):
+        from .config import config_dir
+
+        base = config_dir() / "Data"
+    else:
+        base = Path(__file__).parent.parent / "Data"
+    return base / "Raw Speech-to-Text Dictation"
+
+
+_TRANSCRIPT_DIR = _transcript_dir()
 
 
 def save_transcript(text: str) -> None:

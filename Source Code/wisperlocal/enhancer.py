@@ -91,17 +91,28 @@ _loaded_path = None
 _loaded_llm = None
 
 
+# Memoized GGUF paths: once a model file is confirmed on disk, skip the
+# hf_hub cache scan on every subsequent dictation.
+_path_cache: dict[str, str] = {}
+
+
 def _gguf_path(spec: ModelSpec, local_only: bool):
     """Resolve the on-disk path of a model's GGUF file (no download if
     local_only)."""
+    cached = _path_cache.get(spec.key)
+    if cached and os.path.exists(cached):
+        return cached
+
     from huggingface_hub import hf_hub_download
 
-    return hf_hub_download(
+    path = hf_hub_download(
         repo_id=spec.repo,
         filename=spec.filename,
         cache_dir=str(MODELS_DIR),
         local_files_only=local_only,
     )
+    _path_cache[spec.key] = path
+    return path
 
 
 def is_cached(spec: ModelSpec) -> bool:
@@ -198,7 +209,10 @@ class LocalEnhancer:
                         {"role": "system", "content": system},
                         {"role": "user", "content": text},
                     ],
-                    temperature=0.2,
+                    # Greedy decoding: punctuation fixing is deterministic, so
+                    # sampling only adds latency and drift (which the word-match
+                    # safety net would then reject).
+                    temperature=0.0,
                     max_tokens=max(64, len(text) + 64),
                 )
             except Exception as exc:
