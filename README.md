@@ -2,6 +2,12 @@
   <img src="Source Code/docs/banner.svg" alt="WisperLocal — private, on-device dictation for Windows" width="100%">
 </p>
 
+<h1 align="center">🌐 Visit <a href="https://tools.dubnext.com/tools/whisper-local">tools.dubnext.com</a> to download WisperLocal</h1>
+
+<p align="center">
+  <a href="https://tools.dubnext.com/tools/whisper-local"><img src="https://img.shields.io/badge/⬇%20Download%20the%20setup-tools.dubnext.com-7C3AED?style=for-the-badge&logo=windows&logoColor=white" alt="Download WisperLocal from tools.dubnext.com"></a>
+</p>
+
 > ## 📦 To install: double-click **`WisperLocal-Setup-0.6.3.exe`**
 > That's everything you need — no Python, no setup, no command line. Once installed, you can delete this folder.
 >
@@ -44,10 +50,11 @@ It's **free and unlimited** — no accounts, no subscriptions, no telemetry, no 
 > 🟢 **Just want to use it?** Download the installer below — that's *everything you need*. No Python, no setup, no command line.
 
 <p align="center">
+  <a href="https://tools.dubnext.com/tools/whisper-local"><img src="https://img.shields.io/badge/Download%20from-tools.dubnext.com-7C3AED?style=for-the-badge&logo=windows&logoColor=white" alt="Download WisperLocal from tools.dubnext.com"></a>
   <a href="../../releases/latest"><img src="https://img.shields.io/badge/Download%20for%20Windows-WisperLocal--Setup.exe-2563EB?style=for-the-badge&logo=windows&logoColor=white" alt="Download WisperLocal"></a>
 </p>
 
-Grab **`WisperLocal-Setup.exe`** from the [latest release](../../releases) and run it — it's a **per-user installer, no admin required**. A 🎙️ icon then appears in your system tray. (Optional AI enhancement needs nothing extra — the model downloads itself on first use.)
+Get **`WisperLocal-Setup.exe`** from **[tools.dubnext.com](https://tools.dubnext.com/tools/whisper-local)** or the [latest release](../../releases) and run it — it's a **per-user installer, no admin required**. A 🎙️ icon then appears in your system tray. (Optional AI enhancement needs nothing extra — the model downloads itself on first use.)
 
 > **Requirements:** Windows 10 or 11 · a microphone. Whisper models download automatically the first time you use them.
 >
