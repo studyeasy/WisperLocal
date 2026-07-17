@@ -14,11 +14,12 @@ _STATUS_TEXT = {
 
 
 class TrayApp:
-    def __init__(self, app, config, controller, main_window):
+    def __init__(self, app, config, controller, main_window, history_window=None):
         self.app = app
         self.config = config
         self.controller = controller
         self.main_window = main_window
+        self.history_window = history_window
 
         self._status = "idle"
         self._model_status = "loading"
@@ -45,6 +46,11 @@ class TrayApp:
         menu.addSeparator()
         menu.addAction("Open WisperLocal", self.main_window.show_and_raise)
         menu.addAction("Start / stop dictation", self.controller.toggle)
+        if self.history_window is not None:
+            combo = self.config.get("history_hotkey") or ""
+            pretty = "+".join(p.capitalize() for p in combo.split("+")) if combo else ""
+            label = f"Transcription history ({pretty})" if pretty else "Transcription history"
+            menu.addAction(label, self.history_window.show_and_raise)
         menu.addAction("Settings...", self.main_window.open_settings)
         menu.addSeparator()
         menu.addAction("Quit", self.quit)

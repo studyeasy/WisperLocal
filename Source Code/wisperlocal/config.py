@@ -14,6 +14,7 @@ DEFAULTS = {
     "language": "en",             # language code, or "auto" for detection
     "input_device": None,         # sounddevice input index, or None for system default
     "hotkey": "ctrl+alt+w",       # global hotkey combo
+    "history_hotkey": "ctrl+alt+v",  # global hotkey to open the transcription history
     "record_mode": "toggle",      # toggle | push_to_talk
     "output_mode": "paste",       # paste (clipboard+Ctrl+V) | type (char-by-char)
     "restore_clipboard": True,    # restore previous clipboard after pasting

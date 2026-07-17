@@ -11,6 +11,7 @@ from PySide6.QtCore import QObject, Signal
 
 from . import downloads, enhancer, formatting, sounds
 from .audio import Recorder
+from .history import History
 from .hotkey import HotkeyManager
 from .output import deliver, save_transcript
 from .transcriber import Transcriber
@@ -25,6 +26,8 @@ class Controller(QObject):
     modelProgress = Signal(str)
     # transient human-readable messages for balloon tips / logging
     info = Signal(str)
+    # user pressed the history hotkey - open the transcription history window
+    historyRequested = Signal()
 
     def __init__(self, config):
         super().__init__()
@@ -35,12 +38,14 @@ class Controller(QObject):
             device=config.get("device"),
             compute_type=config.get("compute_type"),
         )
+        self.history = History()
         self.state = "idle"
         self.model_ready = False
         self._lock = threading.Lock()
         self._preload_lock = threading.Lock()
         self._last_dl_pct = -1
         self.hotkey: HotkeyManager | None = None
+        self.history_hotkey: HotkeyManager | None = None
         self._install_hotkey()
 
     # ------------------------------------------------------------------ setup
@@ -53,6 +58,15 @@ class Controller(QObject):
         else:
             self.hotkey = HotkeyManager(combo, on_activate=self._toggle)
         self.hotkey.start()
+
+        if self.history_hotkey is not None:
+            self.history_hotkey.stop()
+        history_combo = self.config.get("history_hotkey")
+        if history_combo:
+            self.history_hotkey = HotkeyManager(
+                history_combo, on_activate=self.historyRequested.emit
+            )
+            self.history_hotkey.start()
 
     def apply_settings(self) -> None:
         """Re-read config after the settings dialog saves."""
@@ -248,6 +262,9 @@ class Controller(QObject):
                     self.info.emit(f"Enhance skipped: {exc}")
 
             if text:
+                # Record BEFORE delivering so the text is recoverable from the
+                # history window even if the paste itself goes wrong.
+                self.history.add(text)
                 deliver(
                     text,
                     mode=self.config.get("output_mode"),
@@ -271,5 +288,7 @@ class Controller(QObject):
     def shutdown(self) -> None:
         if self.hotkey is not None:
             self.hotkey.stop()
+        if self.history_hotkey is not None:
+            self.history_hotkey.stop()
         if self.recorder.is_recording:
             self.recorder.stop()

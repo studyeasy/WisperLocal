@@ -7,6 +7,7 @@ from PySide6.QtWidgets import QApplication, QMessageBox, QSystemTrayIcon
 from . import APP_NAME, __version__
 from .config import Config
 from .controller import Controller
+from .history_window import HistoryWindow
 from .icons import make_icon
 from .main_window import MainWindow
 from .overlay import ListeningOverlay
@@ -35,7 +36,12 @@ def main() -> int:
     overlay.confirmClicked.connect(controller.confirm)
 
     main_window = MainWindow(config, controller)
-    tray = TrayApp(app, config, controller, main_window)
+
+    # Transcription history (opened with the history hotkey, e.g. Ctrl+Alt+V).
+    history_window = HistoryWindow(controller.history)
+    controller.historyRequested.connect(history_window.show_and_raise)
+
+    tray = TrayApp(app, config, controller, main_window, history_window)
 
     def _on_settings_saved():
         overlay.enabled = bool(config.get("show_overlay"))

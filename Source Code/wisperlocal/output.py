@@ -12,6 +12,7 @@ the clipboard can't be confirmed, we type the text directly instead of risking
 a stale paste.
 """
 
+import ctypes
 import datetime
 import sys
 import threading
@@ -22,6 +23,29 @@ import pyperclip
 from pynput.keyboard import Controller, Key
 
 _kb = Controller()
+
+# Physical modifier keys that must be up before we inject keystrokes. If the
+# user is still holding Ctrl/Alt from the dictation hotkey, the target app
+# would receive Ctrl+Alt+V (or Alt+letters in type mode) instead of a clean
+# paste — a common source of garbled/duplicated insertions.
+_MODIFIER_VKS = (0x10, 0x11, 0x12, 0x5B, 0x5C)  # shift, ctrl, alt, lwin, rwin
+
+
+def _wait_modifiers_released(timeout: float = 1.5) -> None:
+    if sys.platform != "win32":
+        return
+    try:
+        user32 = ctypes.windll.user32
+    except Exception:
+        return
+    deadline = time.time() + timeout
+    while time.time() < deadline:
+        try:
+            if not any(user32.GetAsyncKeyState(vk) & 0x8000 for vk in _MODIFIER_VKS):
+                return
+        except Exception:
+            return
+        time.sleep(0.02)
 
 
 def _transcript_dir() -> Path:
@@ -93,6 +117,7 @@ def deliver(
         text = text + " "
 
     if mode == "type":
+        _wait_modifiers_released()
         _kb.type(text)
         return
 
@@ -108,14 +133,16 @@ def deliver(
     # we can't confirm it, type the text instead of risking a stale paste that
     # would insert the previous clipboard contents.
     if not _set_clipboard(text):
+        _wait_modifiers_released()
         _kb.type(text)
         return
 
+    _wait_modifiers_released()
     _send_ctrl_v()
 
     if restore_clipboard:
         def _restore():
-            time.sleep(0.6)  # give the target app time to consume the paste
+            time.sleep(1.5)  # give the target app time to consume the paste
             try:
                 # Only restore if our text is still on the clipboard. If the user
                 # copied something new in the meantime, leave it untouched.
