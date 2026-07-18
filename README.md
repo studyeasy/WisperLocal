@@ -8,10 +8,10 @@
   <a href="https://tools.dubnext.com/tools/whisper-local"><img src="https://img.shields.io/badge/⬇%20Download%20the%20setup-tools.dubnext.com-7C3AED?style=for-the-badge&logo=windows&logoColor=white" alt="Download WisperLocal from tools.dubnext.com"></a>
 </p>
 
-> ## 📦 To install: double-click **`WisperLocal-Setup-0.6.3.exe`**
-> That's everything you need — no Python, no setup, no command line. Once installed, you can delete this folder.
+> ## 📦 To install: download **`WisperLocal-Setup.exe`** from [tools.dubnext.com](https://tools.dubnext.com/tools/whisper-local) and double-click it
+> That's everything you need — no Python, no setup, no command line.
 >
-> The **`Source Code`** folder next to the installer holds the full project (Python code, build scripts, installer config, docs, and tests). You only need it to build or modify WisperLocal for future development — not to use the app.
+> The **`Source Code`** folder holds the full project (Python code, build scripts, installer config, docs, and tests). You only need it to build or modify WisperLocal for future development — not to use the app.
 
 <p align="center">
   <strong>Press a key. Talk. It types — wherever your cursor is.</strong>
@@ -194,7 +194,6 @@ Details (GPU bundling, Inno Setup) in [PACKAGING.md](Source Code/docs/PACKAGING.
 
 ```
 WisperLocal/
-├── WisperLocal-Setup-0.6.3.exe   # the installer — double-click to install
 ├── README.md  CHANGELOG.md       # this file + version history
 └── Source Code/                  # full project, for future development
     ├── LICENSE  requirements.txt

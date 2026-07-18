@@ -2,9 +2,10 @@
 # This folder is a distribution layout: the installer + docs sit here,
 # and the full project lives in "Source Code/".
 
-# NOTE: the top-level WisperLocal-Setup-X.Y.Z.exe installer is intentionally
-# tracked so users can download it from the repo. (For a leaner repo you could
-# instead publish it as a GitHub Release and ignore it here.)
+# Installers are NOT tracked in git — users download them from
+# tools.dubnext.com (built by CI and published as GitHub Releases).
+WisperLocal-Setup-*.exe
+*.exe
 
 # Personal speech-to-text dictation output — never upload
 Data/
