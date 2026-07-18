@@ -3,7 +3,7 @@
 ;   iscc installer\WisperLocal.iss
 
 #define MyAppName "WisperLocal"
-#define MyAppVersion "0.6.3"
+#define MyAppVersion "0.6.4"
 #define MyAppPublisher "Chaand Sheikh"
 #define MyAppURL "https://www.linkedin.com/in/chand-sheikh/"
 #define MyAppExeName "WisperLocal.exe"
