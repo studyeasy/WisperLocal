@@ -53,7 +53,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-          pip install pyinstaller
+          pip install pyinstaller pillow
 
       - name: Build llama-cpp-python (Vulkan GPU + portable CPU)
         env:
@@ -64,12 +64,18 @@ jobs:
       - name: Build the app (PyInstaller)
         run: |
           python tools/gen_icon.py
+          if ($LASTEXITCODE -ne 0) { exit 1 }
           pyinstaller --noconfirm WisperLocal.spec
 
       - name: Sanity-check the frozen build
         run: |
-          .\dist\WisperLocal\WisperLocal.exe --selftest
-          Get-Content "$env:APPDATA\WisperLocal\selftest.log"
+          # WisperLocal.exe is a windowed (console=False) app, so PowerShell
+          # does NOT wait for it by default - the old direct invocation raced
+          # ahead and read selftest.log before the test had run. Start-Process
+          # -Wait blocks until it exits and -PassThru exposes the exit code.
+          $p = Start-Process -FilePath ".\dist\WisperLocal\WisperLocal.exe" -ArgumentList "--selftest" -Wait -PassThru
+          try { Get-Content "$env:APPDATA\WisperLocal\selftest.log" -ErrorAction Stop } catch { Write-Host "selftest.log not written" }
+          exit $p.ExitCode
 
       - name: Install Inno Setup
         run: choco install innosetup -y --no-progress

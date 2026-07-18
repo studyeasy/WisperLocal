@@ -3,6 +3,13 @@
 All notable changes to WisperLocal are documented here.
 This project follows [Semantic Versioning](https://semver.org).
 
+## [0.6.4] - 2026-07-18
+### Added
+- **Transcription history (`Ctrl+Alt+V`)**: every dictation is now saved to a rolling 50-entry history (`%APPDATA%\WisperLocal\history.json`) — recorded *before* pasting, so text survives even a failed paste. Press `Ctrl+Alt+V` (configurable via `history_hotkey`) or use the tray menu to open a viewer that previews past transcriptions and copies any of them back to the clipboard.
+### Fixed
+- **Hotkey no longer goes unresponsive.** Hotkey callbacks used to run on the Windows keyboard-hook thread while doing slow work; when that exceeded the hook timeout, Windows silently dropped key-release events and the app believed the combo was still held — `Ctrl+Alt+W` then did nothing until you clicked the overlay's ✕. Callbacks now run on a dispatcher thread, and tracked key state self-heals against the real keyboard state (`GetAsyncKeyState`).
+- **Paste no longer picks up old clipboard fragments.** The synthetic `Ctrl+V` is now sent only after you've physically released Ctrl/Alt/Shift/Win (so the target app doesn't receive `Ctrl+Alt+V` or Alt-menu keystrokes), and the previous clipboard is restored after 1.5s instead of 0.6s so slow apps can't read the old contents mid-paste.
+
 ## [0.6.3] - 2026-06-29
 ### Added
 - **Publisher identity**: the installer and code-signing certificate now identify the publisher as **Chaand Sheikh**, and the home window shows a credit with a link to [linkedin.com/in/chand-sheikh](https://www.linkedin.com/in/chand-sheikh/).
